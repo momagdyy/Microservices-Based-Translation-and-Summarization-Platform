@@ -34,4 +34,4 @@ jobs:
         with:
           context: ./EN2AR Translator  # Build only EN2AR Translator
           push: true
-          tags: <your-dockerhub-username>/en2ar-service:latest
+          tags: megzz22/en2ar-service:latest
