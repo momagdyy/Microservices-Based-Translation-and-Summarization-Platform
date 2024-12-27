@@ -4,12 +4,12 @@ on:
    branches:
      - main
    paths:
-     - 'EN2AR Translator/**'
+     - 'EN2AR Translator/*'
  pull_request:
    branches:
      - main
    paths:
-     - 'EN2AR Translator/**'
+     - 'EN2AR Translator/*'
 jobs:
  build:
    runs-on: ubuntu-latest
