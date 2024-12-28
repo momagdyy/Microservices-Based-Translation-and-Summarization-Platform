@@ -1,6 +1,5 @@
 from transformers import MarianMTModel, MarianTokenizer
 
-# Change the model name to translate from Arabic to English
 model_name = "Helsinki-NLP/opus-mt-ar-en"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
