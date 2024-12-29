@@ -1,22 +1,18 @@
 from confluent_kafka import Consumer, KafkaException, KafkaError
 
-# Kafka configuration
 conf = {
-    'bootstrap.servers': 'localhost:9092',  # Kafka broker address
+    'bootstrap.servers': 'localhost:9092',  
     'group.id': 'summarization-consumer-group',
-    'auto.offset.reset': 'earliest'  # Start reading from the earliest message
+    'auto.offset.reset': 'earliest'  
 }
 
-# Initialize the consumer
 consumer = Consumer(conf)
 
-# Subscribe to the Kafka topic
-consumer.subscribe(['summarization-responses'])  # The topic you want to consume from
+consumer.subscribe(['summarization-responses'])  
 
-# Polling for messages
 def consume_message():
     try:
-        msg = consumer.poll(timeout=10.0)  # 10 seconds timeout
+        msg = consumer.poll(timeout=10.0)  
         if msg is None:
             print("No message received in the given time.")
         elif msg.error():
@@ -32,5 +28,4 @@ def consume_message():
 # Example usage
 consume_message()
 
-# Close the consumer connection
 consumer.close()
