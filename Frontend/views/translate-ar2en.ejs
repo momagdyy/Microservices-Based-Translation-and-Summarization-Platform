@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR to EN Translation</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/summarize">Summarize</a>
+        <a href="/translate-en2ar">Translate EN to AR</a>
+        <a href="/translate-ar2en">Translate AR to EN</a>
+        <a href="/logout">Logout</a> <!-- Added logout link -->
+    </div>
+
+    <div class="service-content">
+        <h2>Translate Text (AR to EN)</h2>
+        <form id="translateForm">
+            <textarea id="text" name="text" placeholder="Enter text to translate" required></textarea>
+            <button type="submit">Translate</button>
+        </form>
+        <div id="result">
+            <!-- Translated text will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Handle the form submission via JavaScript
+        document.getElementById('translateForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+            
+            const text = document.getElementById('text').value;
+
+            // Sending a POST request to the Nginx API Gateway for AR to EN translation
+            fetch('http://localhost/api/translate/ar2en', {
+                method: 'POST',
+                body: JSON.stringify({ text: text }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                // Check if the translated text is available
+                if (data.translated_text) {
+                    // Display the translated text in the result div
+                    document.getElementById('result').innerHTML = `<h3>Translation:</h3><p>${data.translated_text}</p>`;
+                } else {
+                    document.getElementById('result').innerHTML = '<p>Translation not available.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = '<p>Error processing the request.</p>';
+            });
+        });
+    </script>
+</body>
+</html>

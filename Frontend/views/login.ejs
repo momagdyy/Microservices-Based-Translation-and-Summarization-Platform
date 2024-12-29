@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Signup</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <h2 id="form-title">Login</h2>
+
+        <!-- Toggle between Login and Signup Forms -->
+        <div id="auth-form">
+            <!-- Login Form -->
+            <form id="loginForm" style="display: block;">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+        </div>
+
+        <br>
+        <p id="toggle-link">
+            <!-- Only show "Sign Up" link when on the Login form -->
+            <span id="login-link">
+                Don't have an account? <a href="javascript:void(0)" onclick="toggleForm()">Sign up</a>
+            </span>
+
+            <!-- Only show "Log In" link when on the Signup form -->
+            <span id="signup-link" style="display: none;">
+                Already have an account? <a href="javascript:void(0)" onclick="toggleForm()">Log in</a>
+            </span>
+        </p>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Toggle between Login and Signup forms
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const formTitle = document.getElementById('form-title');
+            const loginLink = document.getElementById('login-link');
+            const signupLink = document.getElementById('signup-link');
+
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                formTitle.innerText = 'Login';
+                loginLink.style.display = 'inline';  // Show Sign up link
+                signupLink.style.display = 'none';  // Hide Log in link
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                formTitle.innerText = 'Sign Up';
+                loginLink.style.display = 'none';  // Hide Sign up link
+                signupLink.style.display = 'inline';  // Show Log in link
+            }
+        }
+
+        // Handle the login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Send POST request to the login API
+            fetch('http://localhost/auth/signin', {
+                method: 'POST',
+                body: JSON.stringify({
+                    formFields: [
+                        { id: 'email', value: email },
+                        { id: 'password', value: password }
+                    ]
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'OK') {
+                    // Redirect to Dashboard page on successful login
+                    window.location.href = "/dashboard";  // Update this URL to your actual dashboard URL
+                } else {
+                    // Show "Revise email or password" for login errors
+                    document.getElementById('result').innerHTML = '<p>Revise email or password.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = '<p>Error processing the request.</p>';
+            });
+        });
+
+        // Handle the signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            // Check if password meets the conditions (alphabet + numbers + min 8 characters)
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                document.getElementById('result').innerHTML = '<p>Password should contain alphabet and numbers and not be less than 8 characters.</p>';
+                return;
+            }
+
+            // Send POST request to the signup API
+            fetch('http://localhost/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify({
+                    formFields: [
+                        { id: 'email', value: email },
+                        { id: 'password', value: password }
+                    ]
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'OK') {
+                    // After successful signup, switch to login form
+                    toggleForm();
+                    document.getElementById('result').innerHTML = `<p>Signup successful. Please log in, ${email}!</p>`;
+                } else {
+                    // Show generic signup error message
+                    document.getElementById('result').innerHTML = '<p>Please try again.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = '<p>Error processing the request.</p>';
+            });
+        });
+    </script>
+
+</body>
+</html>

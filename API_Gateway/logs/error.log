@@ -1,0 +1,12 @@
+2024/12/28 16:18:12 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:2
+2024/12/28 16:18:16 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:2
+2024/12/28 16:19:59 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:1
+2024/12/28 16:26:32 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:1
+2024/12/28 16:35:39 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:2
+2024/12/28 16:35:45 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/default.conf:2
+2024/12/29 09:22:24 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
+2024/12/29 09:22:33 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
+2024/12/29 09:22:37 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
+2024/12/29 09:22:38 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
+2024/12/29 09:24:41 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
+2024/12/29 09:24:48 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/default.conf:11
